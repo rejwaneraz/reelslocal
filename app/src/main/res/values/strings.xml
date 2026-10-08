@@ -21,7 +21,7 @@
     <string name="action_like">Like video</string>
     <string name="action_comment">Open comments</string>
     <string name="action_share">Share video</string>
-    <string name="action_save">Save video</string>
+    <string name="action_save_video">Save video</string>
     <string name="action_follow">Follow user</string>
     <string name="action_open_profile">Open profile</string>
     <string name="views_suffix">views</string>

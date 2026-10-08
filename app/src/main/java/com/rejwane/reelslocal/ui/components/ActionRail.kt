@@ -72,7 +72,7 @@ fun ActionRail(
             icon = if (isSaved) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
             tint = if (isSaved) Color(0xFFFFC94D) else Color.White,
             label = null,
-            contentDescription = stringResource(R.string.action_save),
+            contentDescription = stringResource(R.string.action_save_video),
             onClick = onSave
         )
     }
