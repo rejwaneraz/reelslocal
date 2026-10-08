@@ -143,9 +143,21 @@ private fun ProfileHeader(
             UserAvatar(user = user, size = 84.dp)
             Spacer(Modifier.width(20.dp))
             Row(modifier = Modifier.weight(1f)) {
-                StatColumn(formatCount(user?.followersCount ?: 0), stringResource(R.string.stat_followers))
-                StatColumn(formatCount(user?.followingCount ?: 0), stringResource(R.string.stat_following))
-                StatColumn(formatCount(user?.likesCount ?: 0), stringResource(R.string.stat_likes))
+                StatColumn(
+                    value = formatCount(user?.followersCount ?: 0),
+                    label = stringResource(R.string.stat_followers),
+                    modifier = Modifier.weight(1f)
+                )
+                StatColumn(
+                    value = formatCount(user?.followingCount ?: 0),
+                    label = stringResource(R.string.stat_following),
+                    modifier = Modifier.weight(1f)
+                )
+                StatColumn(
+                    value = formatCount(user?.likesCount ?: 0),
+                    label = stringResource(R.string.stat_likes),
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
 
@@ -235,9 +247,9 @@ private fun ProfileHeader(
 }
 
 @Composable
-private fun StatColumn(value: String, label: String) {
+private fun StatColumn(value: String, label: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.weight(1f),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)

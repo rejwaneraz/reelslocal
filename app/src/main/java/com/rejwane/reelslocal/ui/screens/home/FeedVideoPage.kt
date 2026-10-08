@@ -29,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,11 +48,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import androidx.media3.common.ExoPlayer
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
 import com.rejwane.reelslocal.R
 import com.rejwane.reelslocal.data.database.relation.VideoWithOwner
 import com.rejwane.reelslocal.ui.components.ActionRail
@@ -125,26 +126,30 @@ fun FeedVideoPage(
     }
 
     // Observe playback only while active.
-    LaunchedEffect(isActive, player) {
-        if (!isActive) return@LaunchedEffect
-        val listener = object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                playing = isPlaying
-            }
+    DisposableEffect(isActive, player) {
+        val listener = if (isActive) {
+            val l = object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    playing = isPlaying
+                }
 
-            override fun onPlaybackStateChanged(state: Int) {
-                buffering = state == Player.STATE_BUFFERING
-            }
+                override fun onPlaybackStateChanged(state: Int) {
+                    buffering = state == Player.STATE_BUFFERING
+                }
 
-            override fun onPlayerError(error: PlaybackException) {
-                hasError = true
-                buffering = false
-                playing = false
+                override fun onPlayerError(error: PlaybackException) {
+                    hasError = true
+                    buffering = false
+                    playing = false
+                }
             }
+            player.addListener(l)
+            playing = player.isPlayingNow
+            l
+        } else {
+            null
         }
-        player.addListener(listener)
-        playing = player.isPlayingNow
-        onDispose { player.removeListener(listener) }
+        onDispose { listener?.let { player.removeListener(it) } }
     }
 
     Box(

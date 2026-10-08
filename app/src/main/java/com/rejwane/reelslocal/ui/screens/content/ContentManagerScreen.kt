@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -223,7 +224,7 @@ private fun UsersList(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        androidx.compose.foundation.lazy.items(users, key = { it.user.id }) { item ->
+        items(users, key = { it.user.id }) { item ->
             val user = item.user
             ManagerRow(
                 title = user.displayName + if (user.isSystem) " (system)" else "",
@@ -247,7 +248,7 @@ private fun VideosList(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        androidx.compose.foundation.lazy.items(videos, key = { it.video.id }) { item ->
+        items(videos, key = { it.video.id }) { item ->
             val video = item.video
             ManagerRow(
                 title = video.title.ifBlank { video.caption.ifBlank { "Untitled" } },
@@ -272,7 +273,7 @@ private fun CommentsList(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        androidx.compose.foundation.lazy.items(comments, key = { it.comment.id }) { item ->
+        items(comments, key = { it.comment.id }) { item ->
             val comment = item.comment
             Row(
                 modifier = Modifier
